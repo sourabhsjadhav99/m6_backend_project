@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 
 const signup = async (req, res) => {
-  const { username, email, password } = req.body;
+  const {  email, password } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -12,7 +12,7 @@ const signup = async (req, res) => {
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const newUser = new User({ username, email, password: hashedPassword });
+    const newUser = new User({  email, password: hashedPassword });
 
     await newUser.save();
     res.status(201).json({ message: 'User created successfully' });
@@ -44,4 +44,10 @@ const signin = async (req, res) => {
   }
 };
 
-export { signup, signin };
+let signout= (req, res) => {
+  res.clearCookie('token');
+  res.status(200).json({ message: 'Logged out successfully' });
+}
+
+
+export { signup, signin, signout };

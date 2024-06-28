@@ -1,31 +1,32 @@
 import multer from 'multer';
 import path from 'path';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/cvs');
-  },
-  filename: (req, file, cb) => {
-    cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`);
-  },
+import fs from 'fs';
+const pdfconfig = multer.diskStorage({
+    destination: (req, file, callback) => {
+        const dir = './Public/cvs';
+        if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir, { recursive: true });
+        }
+        callback(null, dir);
+    },
+    filename: (req, file, callback) => {
+        callback(null, file.fieldname + "-" + Date.now() + path.extname(file.originalname));
+    }
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = /pdf/;
-  const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedTypes.test(file.mimetype);
-
-  if (extname && mimetype) {
-    return cb(null, true);
+const ispdf = (req, file, callback) => {
+  if (file.mimetype === "application/pdf") {
+      callback(null, true); // Allow upload
   } else {
-    cb('Error: Only PDF files are allowed!');
+      callback(new Error("Only PDF files are allowed"));
   }
 };
 
 const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 },
-  fileFilter: fileFilter,
+    storage: pdfconfig,
+    fileFilter: ispdf
 });
+
 
 export default upload;

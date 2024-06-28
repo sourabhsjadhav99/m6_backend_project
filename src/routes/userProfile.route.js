@@ -3,6 +3,7 @@ import { createProfile, getProfiles, getProfile, updateProfile, deleteProfile } 
 import authMiddleware from '../middlewares/authentication.middleware.js';
 import upload from '../middlewares/uploadPdf.middleware.js';
 
+
 const router = express.Router();
 
 // CRUD operations for profiles

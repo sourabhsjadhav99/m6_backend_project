@@ -3,11 +3,12 @@ import Profile from '../models/userProfile.model.js';
 // Create a new profile
 const createProfile = async (req, res) => {
   const { firstname, lastname, profession } = req.body;
-  const cv = req.file.path;
+  // const cv = req.file.path;
+  const {filename}= req.file;
   const user = req.user.userId;
 
   try {
-    const newProfile = new Profile({ firstname, lastname, profession, cv, user });
+    const newProfile = new Profile({ firstname, lastname, profession, cv:filename , user });
     await newProfile.save();
     res.status(201).json(newProfile);
   } catch (error) {
@@ -51,7 +52,7 @@ const updateProfile = async (req, res) => {
     profile.firstname = firstname || profile.firstname;
     profile.lastname = lastname || profile.lastname;
     profile.profession = profession || profile.profession;
-    profile.cv = cv || profile.cv;
+    // profile.cv = cv || profile.cv;
     await profile.save();
     res.status(200).json(profile);
   } catch (error) {
@@ -62,11 +63,10 @@ const updateProfile = async (req, res) => {
 // Delete a profile
 const deleteProfile = async (req, res) => {
   try {
-    const profile = await Profile.findById(req.params.id);
+    const profile = await Profile.findByIdAndDelete(req.params.id);
     if (!profile) {
       return res.status(404).json({ message: 'Profile not found' });
     }
-    await profile.remove();
     res.status(200).json({ message: 'Profile deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
