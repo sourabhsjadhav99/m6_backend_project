@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const jobSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   title: {
     type: String,
     required: true,
@@ -15,7 +20,8 @@ const jobSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    required: true,
+    enum: ['part time', 'full time', 'contract'],
+    default: 'Full Time',
   },
   workplace: {
     type: String,
@@ -24,17 +30,21 @@ const jobSchema = new mongoose.Schema({
   postDate: {
     type: Date,
     default: Date.now,
+    required: false,
   },
   location: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Location',
-    required: true,
+    required: false,
   },
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
     required: true,
   },
+}, {
+  timestamps: true,
+  versionKeys: false
 });
 
 const Job = mongoose.model('Job', jobSchema);

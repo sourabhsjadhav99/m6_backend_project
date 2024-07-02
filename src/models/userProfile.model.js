@@ -14,7 +14,7 @@ const profileSchema = new mongoose.Schema({
     required: true,
   },
   cv: {
-    type: String, // Store the file path of the uploaded CV
+    type: String,
     required: true,
   },
   user: {
@@ -22,6 +22,9 @@ const profileSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
+}, {
+  timestamps: true,
+  versionKeys: false
 });
 
 const Profile = mongoose.model('Profile', profileSchema);

@@ -1,13 +1,15 @@
 import express from 'express';
-import { createJob, getJobs, getJob, updateJob, deleteJob } from '../controllers/job.controller.js';
+import { createJob, getJobs, getJob, updateJob, deleteJob, getJobsByAdmin } from '../controllers/job.controller.js';
 import authMiddleware from '../middlewares/authentication.middleware.js';
+import adminMiddleware from '../middlewares/admin.middleware.js';
 
 const router = express.Router();
 
 // CRUD operations for jobs
-router.post('/', authMiddleware, createJob);
-router.get('/', authMiddleware, getJobs); // Updated to include search by location ID
-router.get('/:id', authMiddleware, getJob);
-router.put('/:id', authMiddleware, updateJob);
-router.delete('/:id', authMiddleware, deleteJob);
+router.post('/', authMiddleware, adminMiddleware, createJob);
+router.get('/',  getJobs); 
+router.get('/jobsbyadmin', authMiddleware, adminMiddleware, getJobsByAdmin);
+router.get('/:id', getJob);
+router.put('/:id', authMiddleware, adminMiddleware, updateJob);
+router.delete('/:id', authMiddleware, adminMiddleware, deleteJob);
 export default router;

@@ -15,6 +15,9 @@ const savedJobSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+}, {
+  timestamps: true,
+  versionKeys: false
 });
 
 const SavedJob = mongoose.model('SavedJob', savedJobSchema);

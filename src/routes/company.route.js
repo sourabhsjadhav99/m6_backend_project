@@ -1,14 +1,16 @@
 import express from 'express';
-import { createCompany, getCompanies, getCompany, updateCompany, deleteCompany } from '../controllers/company.controller.js';
+import { createCompany, getCompanies, getCompany, updateCompany, deleteCompany, getCompaniesByAdmin } from '../controllers/company.controller.js';
 import authMiddleware from '../middlewares/authentication.middleware.js';
+import adminMiddleware from '../middlewares/admin.middleware.js';
 
 const router = express.Router();
 
 // CRUD operations for companies
-router.post('/', authMiddleware, createCompany);
-router.get('/', authMiddleware, getCompanies);
-router.get('/:id', authMiddleware, getCompany);
-router.put('/:id', authMiddleware, updateCompany);
-router.delete('/:id', authMiddleware, deleteCompany);
+router.post('/', authMiddleware, adminMiddleware, createCompany);
+router.get('/',  getCompanies);
+router.get('/companiesbyadmin', authMiddleware, adminMiddleware, getCompaniesByAdmin);
+router.get('/:id', getCompany);
+router.put('/:id', authMiddleware, adminMiddleware, updateCompany);
+router.delete('/:id', authMiddleware, adminMiddleware, deleteCompany);
 
 export default router;

@@ -1,14 +1,16 @@
 import express from 'express';
-import { createLocation, getLocations, getLocation, updateLocation, deleteLocation } from '../controllers/location.controller.js';
+import { createLocation, getLocations, getLocation, updateLocation, deleteLocation, getLocationsByAdmin } from '../controllers/location.controller.js';
 import authMiddleware from '../middlewares/authentication.middleware.js';
+import adminMiddleware from '../middlewares/admin.middleware.js';
 
 const router = express.Router();
 
 // CRUD operations for locations
-router.post('/', authMiddleware, createLocation);
-router.get('/', authMiddleware, getLocations);
-router.get('/:id', authMiddleware, getLocation);
-router.put('/:id', authMiddleware, updateLocation);
-router.delete('/:id', authMiddleware, deleteLocation);
+router.post('/', authMiddleware, adminMiddleware, createLocation);
+router.get('/', getLocations);
+router.get('/locationsbyadmin', authMiddleware, adminMiddleware, getLocationsByAdmin);
+router.get('/:id', getLocation);
+router.put('/:id', authMiddleware, adminMiddleware, updateLocation);
+router.delete('/:id', authMiddleware, adminMiddleware, deleteLocation);
 
 export default router;

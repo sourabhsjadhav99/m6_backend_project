@@ -1,18 +1,36 @@
 import Profile from '../models/userProfile.model.js';
+import cloudinary from '../config/cloudnaryConfig.js';
+;
+
 
 // Create a new profile
 const createProfile = async (req, res) => {
   const { firstname, lastname, profession } = req.body;
-  // const cv = req.file.path;
-  const {filename}= req.file;
+  const filePath = req.file ? req.file.path : null; // Get the file path from multer
   const user = req.user.userId;
 
   try {
-    const newProfile = new Profile({ firstname, lastname, profession, cv:filename , user });
+    if (!filePath) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    // Upload to Cloudinary
+    // const uploadResult = await cloudinary.uploader.upload(filePath, {
+    //   resource_type: 'raw', // Use 'raw' for non-image files like PDFs
+    // });
+
+    const newProfile = new Profile({
+      firstname,
+      lastname,
+      profession,
+      cv: filePath, // Save the URL to the database
+      // cv: uploadResult.secure_url, // Save the URL to the database
+      user
+    });
+
     await newProfile.save();
     res.status(201).json(newProfile);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -22,7 +40,7 @@ const getProfiles = async (req, res) => {
     const profiles = await Profile.find().populate('user', 'username email');
     res.status(200).json(profiles);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -35,7 +53,7 @@ const getProfile = async (req, res) => {
     }
     res.status(200).json(profile);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -56,7 +74,7 @@ const updateProfile = async (req, res) => {
     await profile.save();
     res.status(200).json(profile);
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
@@ -69,8 +87,9 @@ const deleteProfile = async (req, res) => {
     }
     res.status(200).json({ message: 'Profile deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
 
 export { createProfile, getProfiles, getProfile, updateProfile, deleteProfile };
+

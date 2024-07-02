@@ -20,6 +20,9 @@ const applicationSchema = new mongoose.Schema({
     enum: ['applied', 'reviewing', 'accepted', 'rejected'],
     default: 'applied',
   },
+}, {
+  timestamps: true,
+  versionKeys: false
 });
 
 const Application = mongoose.model('Application', applicationSchema);

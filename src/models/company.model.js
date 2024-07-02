@@ -11,28 +11,38 @@ const companySchema = new mongoose.Schema({
   },
   logo: {
     type: String,
-    required: true,
+    required: false,
   },
   staffCountRange: {
     start: {
       type: Number,
-      required: true,
+      required: false,
     },
     end: {
       type: Number,
-      required: true,
+      required: false,
     },
   },
   specialities: {
     type: [String],
     required: true,
   },
-  weblinks:{
+  weblinks: {
     type: String,
+    required: false,
 
+  }, 
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+},
+  {
+    timestamps: true,
+    versionKeys: false
   }
-
-});
+);
 
 const Company = mongoose.model('Company', companySchema);
 
