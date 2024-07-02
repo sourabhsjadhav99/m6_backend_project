@@ -12,10 +12,10 @@ const createJob = async (req, res) => {
   }
 };
 
-// Get all jobs
+// Get all jobs having search functionlity
 const getJobs = async (req, res) => {
   try {
-    const { title, location, page=1, limit=10 } = req.query;
+    const { title, location, page = 1, limit = 10 } = req.query;
 
     const query = {};
 
@@ -30,7 +30,11 @@ const getJobs = async (req, res) => {
     const options = {
       page: parseInt(page, 10), // Convert to integer
       limit: parseInt(limit, 10), // Convert to integer
-      populate: ['location', 'company'] // Populate location and company fields
+      populate: ['location', 'company'], // Populate location and company fields
+      populate: [
+        { path: 'location', select: 'name' }, // Populate location field with name only
+        { path: 'company', select: 'name description logo specialities staffCountRange' } // Populate company field with specific fields
+      ]
     };
 
     const jobs = await Job.paginate(query, options);
@@ -40,6 +44,7 @@ const getJobs = async (req, res) => {
   }
 };
 
+// for Admin only - to get all jobs added by admin 
 const getJobsByAdmin = async (req, res) => {
   try {
     const user = req.user.userId;
@@ -108,4 +113,5 @@ const deleteJob = async (req, res) => {
   }
 };
 
+// exporting controller 
 export { createJob, getJobs, getJob, updateJob, deleteJob, getJobsByAdmin };

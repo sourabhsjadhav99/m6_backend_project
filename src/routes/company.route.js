@@ -10,7 +10,7 @@ router.post('/', authMiddleware, adminMiddleware, createCompany);
 router.get('/',  getCompanies);
 router.get('/companiesbyadmin', authMiddleware, adminMiddleware, getCompaniesByAdmin);
 router.get('/:id', getCompany);
-router.put('/:id', authMiddleware, adminMiddleware, updateCompany);
+router.patch('/:id', authMiddleware, adminMiddleware, updateCompany);
 router.delete('/:id', authMiddleware, adminMiddleware, deleteCompany);
 
 export default router;

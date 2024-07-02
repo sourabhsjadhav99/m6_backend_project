@@ -10,7 +10,7 @@ router.post('/', authMiddleware, adminMiddleware, createLocation);
 router.get('/', getLocations);
 router.get('/locationsbyadmin', authMiddleware, adminMiddleware, getLocationsByAdmin);
 router.get('/:id', getLocation);
-router.put('/:id', authMiddleware, adminMiddleware, updateLocation);
+router.patch('/:id', authMiddleware, adminMiddleware, updateLocation);
 router.delete('/:id', authMiddleware, adminMiddleware, deleteLocation);
 
 export default router;

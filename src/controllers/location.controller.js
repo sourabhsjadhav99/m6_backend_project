@@ -34,7 +34,6 @@ const getLocationsByAdmin = async (req, res) => {
 };
 
 
-
 // Get a single location
 const getLocation = async (req, res) => {
   try {

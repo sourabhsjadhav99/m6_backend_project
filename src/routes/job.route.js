@@ -10,6 +10,6 @@ router.post('/', authMiddleware, adminMiddleware, createJob);
 router.get('/',  getJobs); 
 router.get('/jobsbyadmin', authMiddleware, adminMiddleware, getJobsByAdmin);
 router.get('/:id', getJob);
-router.put('/:id', authMiddleware, adminMiddleware, updateJob);
+router.patch('/:id', authMiddleware, adminMiddleware, updateJob);
 router.delete('/:id', authMiddleware, adminMiddleware, deleteJob);
 export default router;

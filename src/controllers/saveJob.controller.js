@@ -38,36 +38,4 @@ const getSavedJobs = async (req, res) => {
 };
 
 
-// Save a job
-// const saveJob = async (req, res) => {
-//   try {
-//     const { jobId } = req.body;
-//     const user = req.user.userId; // Adjust according to how you set it in authMiddleware
-
-//     const jobToSave = new SavedJob({ user, job: jobId });
-//     const savedJob = await (await jobToSave.save()).populate("job")
-//     res.status(201).json(savedJob);
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error', error: error.message });
-//   }
-// };
-
-
-// Delete a saved job
-// const deleteSavedJob = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const jobToDelete = await SavedJob.findById(id);
-
-//     if (!jobToDelete) {
-//       return res.status(404).json({ message: 'Job not found' });
-//     }
-
-//     await SavedJob.findByIdAndDelete(id);
-//     res.status(200).json({ message: 'Saved job deleted successfully' });
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server error', error: error.message });
-//   }
-// };
-
 export { getSavedJobs, saveAndDeleteJob };

@@ -10,7 +10,7 @@ const router = express.Router();
 router.post('/', authMiddleware, upload.single('cv'), createProfile);
 router.get('/', authMiddleware, getProfiles);
 router.get('/:id', authMiddleware, getProfile);
-router.put('/:id', authMiddleware, upload.single('cv'), updateProfile);
+router.patch('/:id', authMiddleware, upload.single('cv'), updateProfile);
 router.delete('/:id', authMiddleware, deleteProfile);
 
 export default router;

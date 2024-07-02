@@ -7,7 +7,7 @@ const router = express.Router();
 // Routes for saved jobs
 router.post('/:jobId', authMiddleware, saveAndDeleteJob);
 router.get('/', authMiddleware, getSavedJobs);
-// router.delete('/delete/:id', authMiddleware, deleteSavedJob);
+
 
 export default router;
 

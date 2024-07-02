@@ -12,6 +12,8 @@ const createCompany = async (req, res) => {
   }
 };
 
+
+// get all companies having search functionality
 const getCompanies = async (req, res) => {
   const { name } = req.query;
 
@@ -28,7 +30,7 @@ const getCompanies = async (req, res) => {
   }
 };
 
-
+// For Admin -- To get all companies added by admin
 const getCompaniesByAdmin = async (req, res) => {
   try {
     const user = req.user.userId;
@@ -97,4 +99,5 @@ const deleteCompany = async (req, res) => {
   }
 };
 
+// exporting controllers
 export { createCompany, getCompanies, getCompany, updateCompany, deleteCompany, getCompaniesByAdmin };
