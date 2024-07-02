@@ -15,7 +15,7 @@ const createJob = async (req, res) => {
 // Get all jobs
 const getJobs = async (req, res) => {
   try {
-    const { title, location } = req.query;
+    const { title, location, page=1, limit=10 } = req.query;
 
     const query = {};
 
@@ -27,7 +27,13 @@ const getJobs = async (req, res) => {
       query.location = location; // Directly use the location ID
     }
 
-    const jobs = await Job.find(query).populate('location').populate('company');
+    const options = {
+      page: parseInt(page, 10), // Convert to integer
+      limit: parseInt(limit, 10), // Convert to integer
+      populate: ['location', 'company'] // Populate location and company fields
+    };
+
+    const jobs = await Job.paginate(query, options);
     res.status(200).json(jobs);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

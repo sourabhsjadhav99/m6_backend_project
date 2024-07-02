@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const jobSchema = new mongoose.Schema({
   user: {
@@ -47,6 +48,7 @@ const jobSchema = new mongoose.Schema({
   versionKeys: false
 });
 
+jobSchema.plugin(mongoosePaginate);
 const Job = mongoose.model('Job', jobSchema);
 
 export default Job;
