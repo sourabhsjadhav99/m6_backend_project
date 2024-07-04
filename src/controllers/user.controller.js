@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
+import sendMail from '../utils/nodemailer.js';
 
 // Function to handle user signup
 const signup = async (req, res) => {
@@ -20,6 +21,14 @@ const signup = async (req, res) => {
 
     // Save the new user to the database
     await newUser.save();
+
+    // Send welcome email
+    const subject = 'Welcome to Our App!';
+    const text = `Hi ${email},\n\nThank you for signing up for our app! We're excited to have you on board.\n\nBest Regards,\nThe Team Glassdoor`;
+
+    await sendMail(email, subject, text)
+     
+
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -64,5 +73,18 @@ let signout = (req, res) => {
   }
 }
 
+// Delete a user
+const deleteUser = async (req, res) => {
+  try {
+    const user = await User.findByIdAndDelete(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json({ message: 'User deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 
-export { signup, signin, signout };
+
+export { signup, signin, signout, deleteUser };

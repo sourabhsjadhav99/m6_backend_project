@@ -57,7 +57,7 @@ const updateLocation = async (req, res) => {
       return res.status(404).json({ message: 'Location not found' });
     }
 
-    console.log(user, locationToUpdate.user)
+   
     if (locationToUpdate.user.toString() !== user.toString()) {
       return res.status(403).json({ message: 'Not authorized to update this job' });
     }

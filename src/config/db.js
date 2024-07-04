@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 
 // Retrieving the MongoDB connection URL from environment variables
 let url = process.env.MONGODB_URL
-
 // Connecting to the MongoDB database using the provided URL
 mongoose
   .connect(url)
