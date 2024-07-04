@@ -6,7 +6,8 @@ const createCompany = async (req, res) => {
     const user = req.user.userId;
     const company = new Company({ ...req.body, user });
     await company.save();
-    res.status(201).json(company);
+    const populateCompany = await Company.findById(company._id).populate("user", "email role");
+    res.status(201).json(populateCompany);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

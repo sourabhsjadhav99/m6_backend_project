@@ -1,5 +1,5 @@
 import express from 'express';
-import { applyJob, getApplications } from '../controllers/applyJob.controller.js';
+import { applyJob, getApplications, deleteApplications } from '../controllers/applyJob.controller.js';
 import authMiddleware from '../middlewares/authentication.middleware.js';
 
 const router = express.Router();
@@ -7,5 +7,6 @@ const router = express.Router();
 // Routes for job applications
 router.post('/:jobId', authMiddleware, applyJob);
 router.get('/', authMiddleware, getApplications);
+router.delete('/:jobId', authMiddleware, deleteApplications);
 
 export default router;

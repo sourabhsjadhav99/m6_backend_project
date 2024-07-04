@@ -6,7 +6,8 @@ const createLocation = async (req, res) => {
     const user = req.user.userId;
     const location = new Location({ ...req.body, user });
     await location.save();
-    res.status(201).json(location);
+    const populateLocation = await Location.findById(location._id).populate("user", "email, role");
+    res.status(201).json(populateLocation);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -15,7 +16,7 @@ const createLocation = async (req, res) => {
 // Get all locations
 const getLocations = async (req, res) => {
   try {
-    const locations = await Location.find();
+    const locations = await Location.find().populate("user", "email")
     res.status(200).json(locations);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
@@ -37,7 +38,7 @@ const getLocationsByAdmin = async (req, res) => {
 // Get a single location
 const getLocation = async (req, res) => {
   try {
-    const location = await Location.findById(req.params.id);
+    const location = await Location.findById(req.params.id).populate("user", "email");
     if (!location) {
       return res.status(404).json({ message: 'Location not found' });
     }
@@ -51,7 +52,7 @@ const getLocation = async (req, res) => {
 const updateLocation = async (req, res) => {
   try {
     const user = req.user.userId;
-    const locationToUpdate = await Location.findById(req.params.id)
+    const locationToUpdate = await Location.findById(req.params.id).populate("user", "email")
 
     if (!locationToUpdate) {
       return res.status(404).json({ message: 'Location not found' });

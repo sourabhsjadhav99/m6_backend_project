@@ -10,25 +10,32 @@ const createProfile = async (req, res) => {
   const user = req.user.userId;
 
   try {
+    const existingProfile = await Profile.findOne({ user });
+    if (existingProfile) {
+      return res.status(400).json({ message: 'Profile already exists for this user you can update it' });
+    }
+
     if (!filePath) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
     // Upload to Cloudinary
-    // const uploadResult = await cloudinary.uploader.upload(filePath, {
-    //   resource_type: 'raw', // Use 'raw' for non-image files like PDFs
-    // });
+    const uploadResult = await cloudinary.uploader.upload(filePath, {
+      resource_type: 'raw', // Use 'raw' for non-image files like PDFs
+    });
 
     const newProfile = new Profile({
       firstname,
       lastname,
       profession,
-      cv: filePath, // Save the URL to the database
-      // cv: uploadResult.secure_url, // Save the URL to the database
+      cv: uploadResult.secure_url, // Save the URL to the database
       user
-    });
+    })
 
     await newProfile.save();
-    res.status(201).json(newProfile);
+
+    const populatedProfile = await Profile.findById(newProfile._id).populate('user', 'email role');
+
+    res.status(201).json(populatedProfile);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
