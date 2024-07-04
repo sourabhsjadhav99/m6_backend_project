@@ -1,3 +1,5 @@
+import dotenv from "dotenv"
+dotenv.config()
 import mongoose from "mongoose";
 
 // Retrieving the MongoDB connection URL from environment variables
@@ -11,3 +13,4 @@ mongoose
   .catch((err) => { // If an error occurs
     console.log(`Error connecting to the database. n${err}`);
   });
+ 
