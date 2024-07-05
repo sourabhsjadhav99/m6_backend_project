@@ -5,9 +5,9 @@ const createCompany = async (req, res) => {
   try {
     const user = req.user.userId;
     const company = new Company({ ...req.body, user });
-    await company.save();
-    const populateCompany = await Company.findById(company._id).populate("user", "email role");
-    res.status(201).json(populateCompany);
+    let newCompany = await company.save();
+    await newCompany.populate("user", "email role");
+    res.status(201).json(newCompany);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

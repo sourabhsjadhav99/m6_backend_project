@@ -13,11 +13,14 @@ import("./src/config/db.js");
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+
+
 const app = express();
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+
 
 // Serve static files from the "Public" directory
 app.use("/", express.static("Public"));
@@ -27,6 +30,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.use('/uploads/cvs', express.static(path.join(__dirname, 'uploads/cvs')));
 
+
 // Define API routes
 app.use('/api/user', usrRoute); // User management endpoints
 app.use('/api/profile', profileRoutes); // User management endpoints
@@ -35,8 +39,6 @@ app.use('/api/jobs', jobRoutes); // Job management endpoints
 app.use('/api/companies', companyRoutes);  // Company management endpoints
 app.use('/api/save', savedJobRoutes); // Saved job endpoints
 app.use('/api/apply', applicationRoutes); // Job application endpoints
-
-
 
 // Start the server
 const port = process.env.PORT || 5000

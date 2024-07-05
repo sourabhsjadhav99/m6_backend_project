@@ -5,9 +5,9 @@ const createLocation = async (req, res) => {
   try {
     const user = req.user.userId;
     const location = new Location({ ...req.body, user });
-    await location.save();
-    const populateLocation = await Location.findById(location._id).populate("user", "email, role");
-    res.status(201).json(populateLocation);
+    const newLocation = await location.save();
+    await newLocation.populate("user", "email, role");
+    res.status(201).json(newLocation);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -58,7 +58,7 @@ const updateLocation = async (req, res) => {
       return res.status(404).json({ message: 'Location not found' });
     }
 
-   
+
     if (locationToUpdate.user.toString() !== user.toString()) {
       return res.status(403).json({ message: 'Not authorized to update this job' });
     }
@@ -95,4 +95,4 @@ const deleteLocation = async (req, res) => {
 };
 
 
-export { createLocation, getLocations,getLocationsByAdmin, getLocation, updateLocation, deleteLocation };
+export { createLocation, getLocations, getLocationsByAdmin, getLocation, updateLocation, deleteLocation };

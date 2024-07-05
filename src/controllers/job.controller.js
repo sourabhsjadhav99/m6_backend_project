@@ -5,8 +5,9 @@ const createJob = async (req, res) => {
   try {
     const user = req.user.userId;
     const job = new Job({ ...req.body, user });
-    await job.save();
-    res.status(201).json(job);
+    const newJob = await job.save();
+    await newJob.populate("user", "email role").populate("location", "name").populate("company")
+    res.status(201).json(newJob);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

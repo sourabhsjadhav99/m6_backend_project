@@ -26,7 +26,8 @@ const jobSchema = new mongoose.Schema({
   },
   workplace: {
     type: String,
-    required: true,
+    enum: ['work from office', 'work from home', 'remote'],
+    default: 'work from office',
   },
   postDate: {
     type: Date,

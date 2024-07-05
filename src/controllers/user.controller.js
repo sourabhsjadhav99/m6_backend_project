@@ -27,7 +27,7 @@ const signup = async (req, res) => {
     const text = `Hi ${email},\n\nThank you for signing up for our app! We're excited to have you on board.\n\nBest Regards,\nThe Team Glassdoor`;
 
     await sendMail(email, subject, text)
-     
+
 
     res.status(201).json({ message: 'User created successfully' });
   } catch (error) {

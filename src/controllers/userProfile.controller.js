@@ -31,11 +31,11 @@ const createProfile = async (req, res) => {
       user
     })
 
-    await newProfile.save();
+    const savedProfile = await newProfile.save();
 
-    const populatedProfile = await Profile.findById(newProfile._id).populate('user', 'email role');
+    await savedProfile.populate('user', 'email role');
 
-    res.status(201).json(populatedProfile);
+    res.status(201).json(savedProfile);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

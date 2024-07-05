@@ -12,8 +12,9 @@ const applyJob = async (req, res) => {
       return res.status(400).json({ message: 'You have already applied for this job' });
     }
     const application = new Application({ user: userId, job: jobId });
-    await application.save();
-    res.status(201).json(application);
+    const appliedJob = await application.save();
+    await appliedJob.populate('job')
+    res.status(201).json(appliedJob);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });
   }

@@ -1,4 +1,6 @@
 import SavedJob from '../models/saveJob.model.js';
+import Job from '../models/job.model.js';
+
 
 // Toggle - save and unsaved jobs
 const saveAndDeleteJob = async (req, res) => {
@@ -6,6 +8,10 @@ const saveAndDeleteJob = async (req, res) => {
     const jobId = req.params.jobId;
     const userId = req.user.userId;
 
+    const isJobExist = await Job.findById(jobId);
+    if (!isJobExist) {
+      return res.status(404).json({ message: 'Job not found' });
+    }
     // Check if the job has already been saved by the user
     const existingSavedJob = await SavedJob.findOne({ user: userId, job: jobId });
 
