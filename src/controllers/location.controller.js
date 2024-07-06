@@ -52,7 +52,7 @@ const getLocation = async (req, res) => {
 const updateLocation = async (req, res) => {
   try {
     const user = req.user.userId;
-    const locationToUpdate = await Location.findById(req.params.id).populate("user", "email")
+    const locationToUpdate = await Location.findById(req.params.id)
 
     if (!locationToUpdate) {
       return res.status(404).json({ message: 'Location not found' });
@@ -60,7 +60,7 @@ const updateLocation = async (req, res) => {
 
 
     if (locationToUpdate.user.toString() !== user.toString()) {
-      return res.status(403).json({ message: 'Not authorized to update this job' });
+      return res.status(403).json({ message: 'Not authorized to update this location' });
     }
 
     const updatedLocation = await Location.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -71,6 +71,8 @@ const updateLocation = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
+
 
 // Delete a location
 const deleteLocation = async (req, res) => {

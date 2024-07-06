@@ -81,7 +81,7 @@ const updateJob = async (req, res) => {
     }
 
     if (jobToUpdate.user.toString() !== user.toString()) {
-      return res.status(403).json({ message: 'Not authorized to delete this location' });
+      return res.status(403).json({ message: 'Not authorized to update this job' });
     }
 
     const updatedJob = await Job.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -103,7 +103,7 @@ const deleteJob = async (req, res) => {
     }
 
     if (jobToDelete.user.toString() !== user.toString()) {
-      return res.status(403).json({ message: 'Not authorized to delete this location' });
+      return res.status(403).json({ message: 'Not authorized to delete this job' });
     }
 
     await Job.findByIdAndDelete(req.params.id);

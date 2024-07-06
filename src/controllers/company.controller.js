@@ -67,7 +67,7 @@ const updateCompany = async (req, res) => {
     }
 
     if (companyToUpdate.user.toString() !== user.toString()) {
-      return res.status(403).json({ message: 'Not authorized to delete this location' });
+      return res.status(403).json({ message: 'Not authorized to delete this company' });
     }
 
     const updatedcompany = await Company.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -89,7 +89,7 @@ const deleteCompany = async (req, res) => {
       return res.status(404).json({ message: 'Company not found' });
     }
     if (companyToDelete.user.toString() !== user.toString()) {
-      return res.status(403).json({ message: 'Not authorized to delete this location' });
+      return res.status(403).json({ message: 'Not authorized to delete this company' });
     }
 
     await Company.findByIdAndDelete(req.params.id);
