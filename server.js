@@ -39,7 +39,11 @@ app.use('/api/jobs', jobRoutes); // Job management endpoints
 app.use('/api/companies', companyRoutes);  // Company management endpoints
 app.use('/api/save', savedJobRoutes); // Saved job endpoints
 app.use('/api/apply', applicationRoutes); // Job application endpoints
-
+app.use((req, res, next) => {
+    res.status(404).json({ message: 'Endpoint not found' });
+  });
+  
+  
 // Start the server
 const port = process.env.PORT || 5000
 app.listen(port, () => console.log(`App listening on http://localhost:${port}!`));
