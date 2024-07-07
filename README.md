@@ -122,6 +122,7 @@ Base URL: http://localhost:8000/api
 ## Deployment:
 
 This application deployed on Render.com.
+Deployment Link: https://m6-backend-project.onrender.com
 
 ## API Documentation:
 Postman: Click on link https://documenter.getpostman.com/view/24020194/2sA3e1ApK1 and import the collection, and test
