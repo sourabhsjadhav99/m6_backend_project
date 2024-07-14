@@ -39,6 +39,9 @@ app.use('/api/jobs', jobRoutes); // Job management endpoints
 app.use('/api/companies', companyRoutes);  // Company management endpoints
 app.use('/api/save', savedJobRoutes); // Saved job endpoints
 app.use('/api/apply', applicationRoutes); // Job application endpoints
+app.get("", (req, res) => {
+  res.send("<a href='https://documenter.getpostman.com/view/24020194/2sA3e1ApK1' style='color: blue; font-size: large; font-weight: bold;'>Go to API Documentation</a>");
+});
 app.use((req, res, next) => {
     res.status(404).json({ message: 'Endpoint not found' });
   });
